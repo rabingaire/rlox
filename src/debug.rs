@@ -1,4 +1,5 @@
 use crate::chunk;
+use crate::value;
 
 pub fn disassemble_chunk(c: &chunk::Chunk, name: &str) {
   println!("== {} ==", name);
@@ -13,7 +14,10 @@ pub fn disassemble_instruction(c: &chunk::Chunk, offset: usize) -> usize {
   print!("{:04} ", offset);
   let instruction = &c.code[offset];
   match instruction {
-    chunk::OpCode::OP_RETURN => simple_instruction("OP_RETURN", offset),
+    // TODO:: this need to be refactored right now I assume the position of
+    // op_code on enum definition and match but we need some eligent construct
+    0 => constant_instruction("OP_CONSTANT", c, offset),
+    1 => simple_instruction("OP_RETURN", offset),
     _ => {
       // Print opcode
       println!("Unknown opcode");
@@ -22,7 +26,15 @@ pub fn disassemble_instruction(c: &chunk::Chunk, offset: usize) -> usize {
   }
 }
 
-pub fn simple_instruction(name: &str, offset: usize) -> usize {
+fn constant_instruction(name: &str, c: &chunk::Chunk, offset: usize) -> usize {
+  let constant = c.code[offset + 1] as usize;
+  print!("{:>16} {:04} ", name, offset);
+  value::print_value(&c.constants.values[constant]);
+  println!();
+  return offset + 2;
+}
+
+fn simple_instruction(name: &str, offset: usize) -> usize {
   print!("{}\n", name);
   return offset + 1;
 }
