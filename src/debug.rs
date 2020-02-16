@@ -10,7 +10,7 @@ pub fn disassemble_chunk(c: &chunk::Chunk, name: &str) {
 }
 
 #[allow(unreachable_patterns)]
-pub fn disassemble_instruction(c: &chunk::Chunk, offset: usize) -> usize {
+fn disassemble_instruction(c: &chunk::Chunk, offset: usize) -> usize {
   print!("{:04} ", offset);
   let instruction = &c.code[offset];
   match instruction {
