@@ -1,4 +1,4 @@
-# clox
+# rlox
 
 clox implementation in rust (underdevelopment)
 
