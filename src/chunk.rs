@@ -2,19 +2,19 @@ use crate::value;
 
 #[allow(non_camel_case_types)]
 pub enum OpCode {
-  OP_CONSTANT = 0,
-  OP_RETURN = 1,
+  OP_CONSTANT(usize),
+  OP_RETURN,
 }
 
 pub struct Chunk {
-  pub code: Vec<usize>,
+  pub code: Vec<OpCode>,
   pub lines: Vec<u32>,
   pub constants: value::ValueArray,
 }
 
 // impl of Chunk
 impl Chunk {
-  pub fn write(&mut self, op: usize, line: u32) {
+  pub fn write(&mut self, op: OpCode, line: u32) {
     self.code.push(op);
     self.lines.push(line);
   }
