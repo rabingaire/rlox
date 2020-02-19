@@ -1,11 +1,13 @@
 use crate::value;
 
 #[allow(non_camel_case_types)]
+#[derive(Clone)]
 pub enum OpCode {
   OP_CONSTANT(usize),
   OP_RETURN,
 }
 
+#[derive(Clone)]
 pub struct Chunk {
   pub code: Vec<OpCode>,
   pub lines: Vec<u32>,
